@@ -23,6 +23,7 @@ return [
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
             Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+            Handler\LoginHandler::class => Handler\LoginHandlerFactory::class,
         ],
     ],
 ];
