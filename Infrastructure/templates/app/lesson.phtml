@@ -1,0 +1,99 @@
+<?php $this->headTitle('Урок 1а'); ?>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<?=$this->url('section', ['id' => 0])?>">1. prieks iepazīties</a></li>
+        <li class="breadcrumb-item active" aria-current="page">a. iepazīšanas</li>
+    </ol>
+</nav>
+
+<ul class="nav nav-pills justify-content-center">
+    <li class="nav-item">
+        <a class="nav-link active" href="<?=$this->url('lesson', ['sectionId' => 1, 'id' => 'a'])?>">Карточки</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?=$this->url('lesson', ['sectionId' => 1, 'id' => 'a'])?>">Учи</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Пиши</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Тест</a>
+    </li>
+</ul>
+
+<div class="row mt-3">
+    <div class="col-4">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="row">
+                    <div class="col-12 text-center text-secondary">8</div>
+                    <div class="col-12 text-center">Осталось</div>
+                    <div class="col-12 text-center text-secondary"><i class="fa fa-arrow-down"></i></div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="row">
+                    <div class="col-12 text-center text-secondary">0</div>
+                    <div class="col-12 text-center">Знаком</div>
+                    <div class="col-12 text-center text-secondary"><i class="fa fa-arrow-down"></i></div>
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="row">
+                    <div class="col-12 text-center text-secondary">0</div>
+                    <div class="col-12 text-center">Изучено</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-8 d-flex">
+        <a class="card border-primary align-self-stretc w-100 animated fadeInRight" href="javascript:void(0)" id="word-1">
+            <div class="card-body text-dark d-flex align-items-start flex-column">
+                <h2 class="card-title mb-auto">Raksti</h2>
+                <p class="card-text">Читай</p>
+            </div>
+        </a>
+        <a class="card border-primary align-self-stretc w-100 animated d-none" href="javascript:void(0)" id="word-2">
+            <div class="card-body text-dark d-flex align-items-start flex-column">
+                <h2 class="card-title mb-auto">Huyaksti</h2>
+                <p class="card-text">Хуяй</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<?php $this->inlineScript()->captureStart();
+echo <<<JS
+function animateCSS(element, animationName, callback) {
+    const node = document.querySelector(element)
+    node.classList.add('animated', animationName)
+
+    function handleAnimationEnd() {
+        node.classList.remove('animated', animationName)
+        node.removeEventListener('animationend', handleAnimationEnd)
+
+        if (typeof callback === 'function') callback()
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd)
+}
+
+$(document).ready(function () {
+    $(".card").click(function() {
+        var currentCard = '#'+$(this).attr('id');
+        var nextCard = '#'+$(this).next().attr('id');
+        
+        if (nextCard == '#undefined') {
+            return;
+        }
+        
+        animateCSS(currentCard, 'fadeOutLeft', function() {
+            $(currentCard).hide();
+            $(nextCard).removeClass('d-none');
+            animateCSS(nextCard, 'fadeInRight');
+        });
+    });
+})
+JS;
+$this->inlineScript()->captureEnd(); ?>

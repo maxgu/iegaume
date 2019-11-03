@@ -42,4 +42,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->route('/register', Handler\RegisterHandler::class, ['GET', 'POST'], 'register');
 
     $app->get('/dashboard', Handler\DashboardHandler::class, 'dashboard');
+    $app->get('/section/:id', Handler\SectionHandler::class, 'section');
+    $app->get('/lesson/:sectionId/:id/:mode', Handler\LessonHandler::class, 'lesson');
 };
