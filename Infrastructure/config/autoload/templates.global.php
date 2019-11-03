@@ -10,4 +10,10 @@ return [
             'layout' => ['templates/layout'],
         ],
     ],
+
+    'view_helpers' => [
+        'aliases' => [
+            'getAuthorizedUser' => Infrastructure\ViewHelper\GetAuthorizedUserHelper::class,
+        ],
+    ],
 ];

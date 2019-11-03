@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrastructure\Middleware;
 
 use Domain\Repository\UserRepositoryInterface;
+use Infrastructure\ViewHelper\GetAuthorizedUserHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -20,9 +21,17 @@ class AuthMiddleware implements MiddlewareInterface
      */
     private $userRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
-    {
+    /**
+     * @var GetAuthorizedUserHelper
+     */
+    private $authorizedUserHelper;
+
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        GetAuthorizedUserHelper $authorizedUserHelper
+    ) {
         $this->userRepository = $userRepository;
+        $this->authorizedUserHelper = $authorizedUserHelper;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
@@ -45,6 +54,8 @@ class AuthMiddleware implements MiddlewareInterface
             $user = $this->userRepository->findByLogin(
                 $authenticatedUser['username']
             );
+
+            $this->authorizedUserHelper->setAuthorizedUser($user);
 
             return $handler->handle($request->withAttribute('myself', $user));
         } else {

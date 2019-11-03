@@ -27,7 +27,7 @@ $this->inlineScript()
                 <a class="text-success h3" href="/">iegaumē.com</a>
             </div>
             <div class="col-5 d-flex justify-content-end align-items-center">
-                <div class="p-1">Артем</div>
+                <div class="p-1"><?=$this->getAuthorizedUser()->getLogin()?></div>
                 <a class="btn btn-sm btn-outline-secondary" href="<?=$this->url('logout')?>">
                     Logout <i class="fa fa-sign-out-alt"></i>
                 </a>
