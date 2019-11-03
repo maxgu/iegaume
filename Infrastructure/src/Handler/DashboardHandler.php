@@ -10,7 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class HomePageHandler implements RequestHandlerInterface
+class DashboardHandler implements RequestHandlerInterface
 {
     /**
      * @var TemplateRendererInterface
@@ -25,6 +25,6 @@ class HomePageHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return new HtmlResponse($this->template->render('app::home-page'));
+        return new HtmlResponse($this->template->render('app::dashboard'));
     }
 }

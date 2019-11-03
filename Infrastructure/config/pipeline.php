@@ -23,6 +23,8 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // all Exceptions.
     $app->pipe(ErrorHandler::class);
     $app->pipe(ServerUrlMiddleware::class);
+    $app->pipe(\Zend\Expressive\Session\SessionMiddleware::class);
+    $app->pipe(\Infrastructure\Middleware\AuthMiddleware::class);
 
     // Pipe more middleware here that you want to execute on every request:
     // - bootstrapping

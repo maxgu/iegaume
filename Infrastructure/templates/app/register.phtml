@@ -1,5 +1,8 @@
 <?php
-$this->headTitle('Логин');
+$this->headTitle('Регистрация');
+if (!isset($username)) {
+    $username = '';
+}
 ?>
 
 <div class="row">
@@ -9,9 +12,11 @@ $this->headTitle('Логин');
                 <form method="post">
                     <div class="form-group">
                         <label for="username">Идентифицируй себя</label>
-                        <input name="username" type="text" class="form-control" id="username">
+                        <input name="username" type="text" class="form-control" id="username" value="<?=$username?>">
                         <?php if (!empty($error)): ?>
                             <small class="form-text text-danger"><?=$error?></small>
+                        <?php else: ?>
+                            <small class="form-text text-muted">Введи что угодно, например, имя или е-майл</small>
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
@@ -19,7 +24,7 @@ $this->headTitle('Логин');
                         <input name="password" type="password" class="form-control" id="password">
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Войти</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Создать аккаунт</button>
                 </form>
             </div>
         </div>

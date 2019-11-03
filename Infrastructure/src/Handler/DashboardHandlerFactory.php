@@ -8,10 +8,10 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class HomePageHandlerFactory
+class DashboardHandlerFactory
 {
     public function __invoke(ContainerInterface $container) : RequestHandlerInterface
     {
-        return new HomePageHandler($container->get(TemplateRendererInterface::class));
+        return new DashboardHandler($container->get(TemplateRendererInterface::class));
     }
 }

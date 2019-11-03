@@ -1,12 +1,13 @@
 <?php
 
-namespace Domain\Command\Login;
+
+namespace Domain\Command\Register;
 
 
 use Domain\Entity\User;
 use Domain\Repository\UserRepositoryInterface;
 
-class LoginCommand
+class RegisterCommand
 {
     /**
      * @var UserRepositoryInterface
@@ -18,16 +19,19 @@ class LoginCommand
         $this->userRepository = $userRepository;
     }
 
-    public function execute(LoginContext $context): void
+    public function execute(RegisterContext $context): bool
     {
         $userDTO = $this->userRepository->findByLogin($context->getLogin());
 
         if ($userDTO) {
-            // authenticate
+            return false;
         }
 
-        $user = new User();
+        $this->userRepository->add(User::fromRegisterForm(
+            $context->getLogin(),
+            $context->getPassword()
+        ));
 
-        $this->userRepository->add($user);
+        return true;
     }
 }

@@ -1,0 +1,7 @@
+CREATE TABLE `ie_users` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `login` VARCHAR(100),
+    `password` VARCHAR(100),
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`login`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=10;
