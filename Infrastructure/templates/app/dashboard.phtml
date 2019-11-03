@@ -1,41 +1,25 @@
 <?php $this->headTitle('Dashboard'); ?>
-
+<?php /** @var Domain\Entity\Section[] $sections */ ?>
 <div class="list-group">
     <a href="<?=$this->url('section', ['id' => 0])?>" class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 text-uppercase">0. kopējais</h5>
-            <small>0/1 уроков</small>
+            <h5 class="mb-1 text-uppercase">0. <?=$sections[99]->getTitle('lv')?></h5>
+            <small>0/<?=$sections[99]->getLessonsCount()?> уроков</small>
         </div>
-        <small>Общее</small>
+        <small><?=$sections[99]->getTitle('ru')?></small>
     </a>
-    <a href="<?=$this->url('section', ['id' => 1])?>" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 text-uppercase">1. prieks iepazīties</h5>
-            <small>0/6 уроков</small>
-        </div>
-        <small>Приятно познакомиться</small>
-    </a>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 text-uppercase">2. no visas pasaules</h5>
-            <small>0/6 уроков</small>
-        </div>
-        <small>Со всего мира</small>
-    </a>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 text-uppercase">3. pilsēta un laukos</h5>
-            <small>0/5 уроков</small>
-        </div>
-        <small>Город и за городом</small>
-    </a>
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 text-uppercase">4. mana māja un ģimene</h5>
-            <small>0/6 уроков</small>
-        </div>
-        <small>Мой дом и семья</small>
-    </a>
+
+    <?php unset($sections[99]); ?>
+
+    <?php foreach ($sections as $section): ?>
+        <a href="<?=$this->url('section', ['id' => $section->getId()])?>" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 text-uppercase"><?=$section->getId()?>. <?=$section->getTitle('lv')?></h5>
+                <small>0/<?=$section->getLessonsCount()?> уроков</small>
+            </div>
+            <small><?=$section->getTitle('ru')?></small>
+        </a>
+    <?php endforeach; ?>
 </div>
 
 <div class="row justify-content-md-center">
