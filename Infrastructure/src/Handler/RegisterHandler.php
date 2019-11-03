@@ -57,12 +57,14 @@ class RegisterHandler implements RequestHandlerInterface
                 [
                     'error' => 'User already registered.',
                     'username' => $context->getLogin(),
+                    'layout' => 'layout::anonymous',
                 ]
             ));
         }
 
         return new HtmlResponse($this->template->render(
-            'app::register'
+            'app::register',
+            ['layout' => 'layout::anonymous']
         ));
     }
 }

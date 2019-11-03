@@ -38,6 +38,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     $app->get('/api/ping', Handler\PingHandler::class, 'api.ping');
 
     $app->route('/login', Handler\LoginHandler::class, ['GET', 'POST'], 'login');
+    $app->route('/logout', Handler\LogoutHandler::class, ['GET'], 'logout');
     $app->route('/register', Handler\RegisterHandler::class, ['GET', 'POST'], 'register');
 
     $app->get('/dashboard', Handler\DashboardHandler::class, 'dashboard');

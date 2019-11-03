@@ -15,7 +15,6 @@ $this->inlineScript()
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
     <?=$this->headTitle('iegaumē')->setSeparator(' - ')->setAutoEscape(false)?>
     <?=$this->headMeta()?>
     <?=$this->headLink()?>
@@ -23,14 +22,8 @@ $this->inlineScript()
 <body class="pt-2">
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-around align-items-center ">
-            <div class="col-5">
+            <div class="col-10">
                 <a class="text-success h3" href="/">iegaumē.com</a>
-            </div>
-            <div class="col-5 d-flex justify-content-end align-items-center">
-                <div class="p-1">Артем</div>
-                <a class="btn btn-sm btn-outline-secondary" href="<?=$this->url('logout')?>">
-                    Logout <i class="fa fa-sign-out-alt"></i>
-                </a>
             </div>
         </div>
     </header>

@@ -25,6 +25,9 @@ class HomePageHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        return new HtmlResponse($this->template->render('app::home-page'));
+        return new HtmlResponse($this->template->render(
+            'app::home-page',
+            ['layout' => 'layout::anonymous']
+        ));
     }
 }

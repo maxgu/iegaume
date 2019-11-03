@@ -42,10 +42,6 @@ class LoginHandler implements RequestHandlerInterface
         $session  = $request->getAttribute('session');
         $redirect = $this->getRedirect($request, $session);
 
-        if ($session->get(UserInterface::class)) {
-            die(var_dump($session->get(UserInterface::class)));
-        }
-
         // Handle submitted credentials
         if ('POST' === $request->getMethod()) {
             // User session takes precedence over user/pass POST in
@@ -63,7 +59,10 @@ class LoginHandler implements RequestHandlerInterface
             // Login failed
             return new HtmlResponse($this->template->render(
                 'app::login',
-                ['error' => 'Invalid credentials; please try again']
+                [
+                    'error' => 'Invalid credentials; please try again',
+                    'layout' => 'layout::anonymous'
+                ]
             ));
         }
 
@@ -71,7 +70,7 @@ class LoginHandler implements RequestHandlerInterface
         $session->set(self::REDIRECT_ATTRIBUTE, $redirect);
         return new HtmlResponse($this->template->render(
             'app::login',
-            []
+            ['layout' => 'layout::anonymous']
         ));
     }
 

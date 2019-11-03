@@ -30,11 +30,12 @@ class AuthMiddleware implements MiddlewareInterface
         /** @var SessionInterface $session */
         $session  = $request->getAttribute('session');
 
+        $unAuthorizedUris = ['/', '/login', '/register'];
+
+        $uri = $request->getUri()->getPath();
+
         if ($session->has(UserInterface::class)) {
-
-            $uri = $request->getUri()->getPath();
-
-            if (in_array($uri, ['/', '/login', '/register'], true)) {
+            if (in_array($uri, $unAuthorizedUris, true)) {
                 return new RedirectResponse('/dashboard');
             }
 
@@ -46,6 +47,10 @@ class AuthMiddleware implements MiddlewareInterface
             );
 
             return $handler->handle($request->withAttribute('myself', $user));
+        } else {
+            if (!in_array($uri, $unAuthorizedUris, true)) {
+                return new RedirectResponse('/login');
+            }
         }
 
         return $handler->handle($request);
