@@ -1,41 +1,38 @@
-<?php $this->headTitle('Урок 1а'); ?>
+<?php
+$this->headTitle('Урок 1а');
+/** @var \Domain\Entity\Word[] $words */
+/** @var int $sectionId */
+/** @var int $lessonId */
+?>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?=$this->url('section', ['id' => 0])?>">1. Prieks iepazīties</a></li>
-        <li class="breadcrumb-item active" aria-current="page">a. Iepazīšanas</li>
-    </ol>
-</nav>
+<?=$this->breadcrumb($sectionId, $lessonId)?>
 
 <ul class="nav nav-pills justify-content-center">
     <li class="nav-item">
-        <a class="nav-link active" href="<?=$this->url('lesson', ['sectionId' => 1, 'id' => 'a', 'mode' => 'cards'])?>">Карточки</a>
+        <a class="nav-link active" href="<?=$this->url('lesson', ['sectionId' => 1, 'lessonId' => 'a', 'mode' => 'cards'])?>">Карточки</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?=$this->url('lesson', ['sectionId' => 1, 'id' => 'a', 'mode' => 'learn'])?>">Учи</a>
+        <a class="nav-link" href="<?=$this->url('lesson', ['sectionId' => 1, 'lessonId' => 'a', 'mode' => 'learn'])?>">Учи</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?=$this->url('lesson', ['sectionId' => 1, 'id' => 'a', 'mode' => 'write'])?>">Пиши</a>
+        <a class="nav-link" href="<?=$this->url('lesson', ['sectionId' => 1, 'lessonId' => 'a', 'mode' => 'write'])?>">Пиши</a>
     </li>
 </ul>
 
-<div class="row mt-3">
-    <div class="col">
-        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-light">9 Осталось&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
-            <button type="button" class="btn btn-light pl-2">0 Знаком&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
-            <button type="button" class="btn btn-light pl-1">1 Изучено</button>
-        </div>
-    </div>
-</div>
+<?=$this->partial('app::blocks/lesson-progress', ['remaining' => 1, 'familiar' => 2, 'mastered' => 3])?>
+
 <div class="row mt-2" style="height: 270px;">
     <div class="col d-flex">
-        <a class="card border-primary align-self-stretc w-100 animated" href="javascript:void(0)" id="word-1">
-            <div class="card-body text-dark d-flex align-items-start flex-column">
-                <h2 class="card-title mb-auto">Raksti</h2>
-                <p class="card-text">Читай</p>
-            </div>
-        </a>
+        <?php $dNode = false;?>
+        <?php foreach($words as $word): ?>
+            <a class="card border-primary align-self-stretc w-100 animated <?= $dNode ? 'd-none' : ''?>" href="javascript:void(0)" id="word-<?=$word->getId()?>">
+                <div class="card-body text-dark d-flex align-items-start flex-column">
+                    <h2 class="card-title mb-auto"><?=$word->getWord()?></h2>
+                    <p class="card-text"><?=$word->getTranslate()?></p>
+                </div>
+            </a>
+            <?php $dNode = true;?>
+        <?php endforeach; ?>
         <a class="card border-primary align-self-stretc w-100 animated d-none" href="javascript:void(0)" id="word-2">
             <div class="card-body text-dark d-flex align-items-start flex-column">
                 <h2 class="card-title mb-auto">Huyaksti</h2>
@@ -52,6 +49,11 @@
 </div>
 
 <?php $this->inlineScript()->captureStart();
+$wordsIds = [];
+foreach ($words as $word) {
+    $wordsIds[] = 'word-' . $word->getId();
+}
+$wordsIds = json_encode($wordsIds);
 echo <<<JS
 
 class LinkedList {
@@ -93,7 +95,7 @@ class LinkedList {
     }
 }
 
-var cards = new LinkedList(['word-1', 'word-2']);
+var cards = new LinkedList($wordsIds);
 function animateCSS(element, animationName, callback) {
     const node = document.querySelector(element)
     node.classList.add('animated', animationName)

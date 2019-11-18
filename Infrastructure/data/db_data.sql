@@ -8,7 +8,7 @@ VALUES
 
 INSERT INTO ie_lessons (id, section_id, index_letter, title_lv, title_ru, words_count)
 VALUES
-(1, 99, 'a', 'Kopējais', 'Общее', 10),
+(1, 99, 'a', 'Kopējais', 'Общее', 21),
 (2, 1, 'a', 'Iepazīšanas', 'Знакомство', 16);
 
 INSERT INTO ie_words (section_id, lesson_id, word, translation)

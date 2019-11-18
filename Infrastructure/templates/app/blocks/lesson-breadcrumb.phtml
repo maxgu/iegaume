@@ -1,0 +1,15 @@
+<?php
+/** @var \Domain\Entity\Section $section */
+/** @var \Domain\Entity\Lesson|null $lesson */
+?>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <?php if ($lesson): ?>
+            <li class="breadcrumb-item"><a href="<?=$this->url('section', ['id' => $section->getId()])?>"><?=$section->getId()?>. <?=$section->getTitle('lv')?></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?=$lesson->getIndexLetter()?>. <?=$lesson->getTitle('lv')?></li>
+        <?php else: ?>
+            <li class="breadcrumb-item active" aria-current="page"><?=$section->getId()?>. <?=$section->getTitle('lv')?></li>
+        <?php endif; ?>
+    </ol>
+</nav>

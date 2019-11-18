@@ -20,6 +20,7 @@ return [
 
             \Domain\Repository\SectionRepositoryInterface::class => \Infrastructure\Repository\SectionRepository::class,
             \Domain\Repository\LessonRepositoryInterface::class => \Infrastructure\Repository\LessonRepository::class,
+            \Domain\Repository\WordRepositoryInterface::class => \Infrastructure\Repository\WordRepository::class,
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the

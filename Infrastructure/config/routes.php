@@ -43,5 +43,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app->get('/dashboard', Handler\DashboardHandler::class, 'dashboard');
     $app->get('/section/:id', Handler\SectionHandler::class, 'section');
-    $app->get('/lesson/:sectionId/:id/:mode', Handler\LessonHandler::class, 'lesson');
+    $app->get('/lesson/:sectionId/:lessonId/:mode', Handler\LessonHandler::class, 'lesson');
+    $app->get('/lesson/:sectionId/:lessonId/cards', Handler\CardsHandler::class, 'cards');
 };
