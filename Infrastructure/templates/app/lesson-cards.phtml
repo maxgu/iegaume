@@ -20,38 +20,23 @@
 </ul>
 
 <div class="row mt-3">
-    <div class="col-4">
-        <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="row">
-                    <div class="col-12 text-center text-secondary">8</div>
-                    <div class="col-12 text-center">Осталось</div>
-                    <div class="col-12 text-center text-secondary"><i class="fa fa-arrow-down"></i></div>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="row">
-                    <div class="col-12 text-center text-secondary">0</div>
-                    <div class="col-12 text-center">Знаком</div>
-                    <div class="col-12 text-center text-secondary"><i class="fa fa-arrow-down"></i></div>
-                </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div class="row">
-                    <div class="col-12 text-center text-secondary">0</div>
-                    <div class="col-12 text-center">Изучено</div>
-                </div>
-            </li>
-        </ul>
+    <div class="col">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-light">9 Осталось&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-light pl-2">0 Знаком&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-light pl-1">1 Изучено</button>
+        </div>
     </div>
-    <div class="col-8 d-flex">
-        <a class="card border-primary align-self-stretc w-100 animated fadeInRight" href="javascript:void(0)" id="word-1">
+</div>
+<div class="row mt-2" style="height: 250px;">
+    <div class="col d-flex">
+        <a class="card border-primary align-self-stretc w-100 animated" href="javascript:void(0)" id="word-1" data-next="word-2" data-prev="">
             <div class="card-body text-dark d-flex align-items-start flex-column">
                 <h2 class="card-title mb-auto">Raksti</h2>
                 <p class="card-text">Читай</p>
             </div>
         </a>
-        <a class="card border-primary align-self-stretc w-100 animated d-none" href="javascript:void(0)" id="word-2">
+        <a class="card border-primary align-self-stretc w-100 animated d-none" href="javascript:void(0)" id="word-2" data-next="" data-prev="word-1">
             <div class="card-body text-dark d-flex align-items-start flex-column">
                 <h2 class="card-title mb-auto">Huyaksti</h2>
                 <p class="card-text">Хуяй</p>
@@ -59,9 +44,56 @@
         </a>
     </div>
 </div>
+<div class="row mt-2">
+    <div class="col d-flex justify-content-between">
+        <button type="button" class="btn btn-primary btn-lg" id="prev-card-btn"><i class="fa fa-chevron-left"></i></button>
+        <button type="button" class="btn btn-primary btn-lg" id="next-card-btn"><i class="fa fa-chevron-right"></i></button>
+    </div>
+</div>
 
 <?php $this->inlineScript()->captureStart();
 echo <<<JS
+
+class LinkedList {
+    constructor(values) {
+        this.values = values;
+        this.current = 0;
+    }
+    
+    next() {
+        if ((this.current + 1) in this.values) {
+            this.current++;
+        }
+    }
+    
+    prev() {
+        if ((this.current - 1) in this.values) {
+            this.current--;
+        }
+    }
+    
+    getCurrent() {
+        return '#' + this.values[this.current];
+    }
+    
+    getNext() {
+        if ((this.current + 1) in this.values) {
+            return '#' + this.values[this.current + 1];
+        }
+        
+        return null;
+    }
+    
+    getPrev() {
+        if ((this.current - 1) in this.values) {
+            return '#' + this.values[this.current - 1];
+        }
+        
+        return null;
+    }
+}
+
+var cards = new LinkedList(['word-1', 'word-2']);
 function animateCSS(element, animationName, callback) {
     const node = document.querySelector(element)
     node.classList.add('animated', animationName)
@@ -76,21 +108,69 @@ function animateCSS(element, animationName, callback) {
     node.addEventListener('animationend', handleAnimationEnd)
 }
 
-$(document).ready(function () {
-    $(".card").click(function() {
-        var currentCard = '#'+$(this).attr('id');
-        var nextCard = '#'+$(this).next().attr('id');
+function showNext() {
+    var nextCard = cards.getNext();
+    
+    if (nextCard == null) {
+        $('#next-card-btn').attr('disabled', 'disabled');
+        return;
+    }
+    
+    animateCSS(cards.getCurrent(), 'fadeOutLeft', function() {
+        $(cards.getCurrent()).hide();
+        $(nextCard).removeClass('d-none');
+        $(nextCard).show();
+        animateCSS(nextCard, 'fadeInRight');
+        cards.next();
         
-        if (nextCard == '#undefined') {
-            return;
+        if (cards.getPrev() == null) {
+            $('#prev-card-btn').attr('disabled', 'disabled');
+        } else {
+            $('#prev-card-btn').removeAttr('disabled');
         }
         
-        animateCSS(currentCard, 'fadeOutLeft', function() {
-            $(currentCard).hide();
-            $(nextCard).removeClass('d-none');
-            animateCSS(nextCard, 'fadeInRight');
-        });
+        if (cards.getNext() == null) {
+            $('#next-card-btn').attr('disabled', 'disabled');
+        } else {
+            $('#next-card-btn').removeAttr('disabled');
+        }
     });
+}
+
+function showPrev() {
+    var prevCard = cards.getPrev();
+    
+    if (prevCard == null) {
+        $('#prev-card-btn').attr('disabled', 'disabled');
+        return;
+    }
+    
+    animateCSS(cards.getCurrent(), 'fadeOutRight', function() {
+        $(cards.getCurrent()).hide();
+        $(prevCard).removeClass('d-none');
+        $(prevCard).show();
+        animateCSS(prevCard, 'fadeInLeft');
+        cards.prev();
+        
+        if (cards.getPrev() == null) {
+            $('#prev-card-btn').attr('disabled', 'disabled');
+        } else {
+            $('#prev-card-btn').removeAttr('disabled');
+        }
+        
+        if (cards.getNext() == null) {
+            $('#next-card-btn').attr('disabled', 'disabled');
+        } else {
+            $('#next-card-btn').removeAttr('disabled');
+        }
+    });
+}
+
+$(document).ready(function () {
+    $('#prev-card-btn').attr('disabled', 'disabled');
+    $('#prev-card-btn').click(showPrev);
+    $('#next-card-btn').click(showNext);
+    $('.card').click(showNext);
 })
 JS;
 $this->inlineScript()->captureEnd(); ?>
