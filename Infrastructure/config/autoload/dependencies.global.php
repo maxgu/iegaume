@@ -17,6 +17,9 @@ return [
         'aliases' => [
             Authentication\AuthenticationInterface::class => Authentication\Session\PhpSession::class,
             Authentication\UserRepositoryInterface::class => Authentication\UserRepository\PdoDatabase::class,
+
+            \Domain\Repository\SectionRepositoryInterface::class => \Infrastructure\Repository\SectionRepository::class,
+            \Domain\Repository\LessonRepositoryInterface::class => \Infrastructure\Repository\LessonRepository::class,
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the

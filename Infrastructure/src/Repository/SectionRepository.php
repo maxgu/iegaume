@@ -22,9 +22,29 @@ class SectionRepository implements SectionRepositoryInterface
         $this->tableGateway = $tableGateway;
     }
 
-    public function findOne(int $id): Section
+    public function findById(int $id): Section
     {
+        if ($id === 0) {
+            $id = 99;
+        }
 
+        $select = new Select();
+        $select->from($this->tableGateway->getTable())
+            ->where(['id' => $id]);
+        $result = $this->tableGateway->selectWith($select)->toArray();
+
+        $item = $result[0];
+
+        $section = new Section(
+            $item['id'],
+            [
+                'lv' => $item['title_lv'],
+                'ru' => $item['title_ru'],
+            ],
+            $item['lessons_count']
+        );
+
+        return $section;
     }
 
     public function findAll(): array

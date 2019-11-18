@@ -17,6 +17,7 @@ CREATE TABLE `ie_sections` (
 CREATE TABLE `ie_lessons` (
    `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
    `section_id` TINYINT UNSIGNED NOT NULL,
+   `index_letter` CHAR(1) NOT NULL,
    `title_lv` VARCHAR(100),
    `title_ru` VARCHAR(100),
    `words_count` TINYINT UNSIGNED,

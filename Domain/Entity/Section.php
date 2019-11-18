@@ -30,6 +30,10 @@ class Section
 
     public function getId(): int
     {
+        if ($this->id == 99) {
+            return 0;
+        }
+
         return $this->id;
     }
 

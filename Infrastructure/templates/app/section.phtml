@@ -1,11 +1,23 @@
-<?php $this->headTitle('Раздел 1'); ?>
+<?php
+$this->headTitle('Раздел 1');
+/** @var \Domain\Entity\Section $section */
+/** @var \Domain\Entity\Lesson[] $lessons */
+?>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page"><?=$section->getId()?>. <?=$section->getTitle('lv')?></li>
+    </ol>
+</nav>
 
 <div class="list-group">
-    <a href="<?=$this->url('lesson', ['sectionId' => 1, 'id' => 'a', 'mode' => 'cards'])?>" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 text-uppercase">a. iepazīšanas</h5>
-            <small>0/13 слов</small>
-        </div>
-        <small>Знакомство</small>
-    </a>
+    <?php foreach($lessons as $lesson): ?>
+        <a href="<?=$this->url('lesson', ['sectionId' => $section->getId(), 'id' => $lesson->getId(), 'mode' => 'cards'])?>" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"><?=$lesson->getIndexLetter()?>. <?=$lesson->getTitle('lv')?></h5>
+                <small>0/<?=$lesson->getWordsCount()?> слов</small>
+            </div>
+            <small><?=$lesson->getTitle('ru')?></small>
+        </a>
+    <?php endforeach; ?>
 </div>

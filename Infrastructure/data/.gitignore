@@ -1,5 +1,5 @@
 *
 !cache
 !cache/.gitkeep
-!db_schema.sql
+!*.sql
 !.gitignore
